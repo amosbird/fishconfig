@@ -3,5 +3,5 @@ function rm
     echo "Usage: $_ <filename|dir>*"
     return 1
   end
-  mv $argv ~/.trash
+  mv --backup=numbered $argv ~/.trash
 end

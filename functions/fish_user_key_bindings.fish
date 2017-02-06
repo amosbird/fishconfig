@@ -4,6 +4,16 @@ function fish_user_key_bindings
     commandline -f repaint
   end
 
+  function myprevd
+    prevd ^&1 > /dev/null
+    commandline -f repaint
+  end
+
+  function mynextd
+    nextd ^&1 > /dev/null
+    commandline -f repaint
+  end
+
   function fzf-jump-cd -d "Change directory"
     set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
     command jump top"
@@ -20,7 +30,7 @@ function fish_user_key_bindings
       set -l complist (complete -C(commandline -c))
       set -l result
       string join -- \n $complist | sort | eval (__fzfcmd) -m --tiebreak=index --select-1 --exit-0 --header '(commandline)' | cut -f1 | while read -l r; set result $result $r; end
-  
+
       for i in (seq (count $result))
           set -l r $result[$i]
           ## We need to escape the result.
@@ -38,7 +48,7 @@ function fish_user_key_bindings
           end
           [ $i -lt (count $result) ]; and commandline -i ' '
       end
-  
+
       commandline -f repaint
   end
 
@@ -92,9 +102,35 @@ function fish_user_key_bindings
     commandline -f repaint
   end
 
+  function fzf-history-token-widget -d "Show command history"
+    set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
+    set str (commandline -jc)
+    set tok (commandline -tc)
+    begin
+      set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS +s --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
+      if [ $str = $tok ]
+        history | eval (__fzfcmd) -q '$str' | read -l result
+        and commandline -- $result
+      else
+        builtin history token -n 1000 | eval (__fzfcmd) -- -q '$tok' | read -l result
+        and commandline -tr -- $result
+      end
+    end
+    commandline -f repaint
+  end
+
+  # TODO: wait bfs gets 1.0 to add fstype flags
+  # set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
+  # command $cmd -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
+  # -o -type d -print 2> /dev/null | sed 1d | cut -b3-"
   function fzf-cd-widget -d "Change directory"
+    if type -q bfs
+      set cmd bfs
+    else
+      set cmd find
+    end
     set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
-    command find -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
+    command $cmd -L . \\( -path '*/\\.*' \\) -prune \
     -o -type d -print 2> /dev/null | sed 1d | cut -b3-"
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
@@ -115,10 +151,23 @@ function fish_user_key_bindings
     end
   end
 
+  function fzf-command-go -d "Execute current command line and filter results by fzf"
+    set -q FZF_TMUX; or set FZF_TMUX 0
+    set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
+    if [ $FZF_TMUX -eq 1 ]
+      commandline -aj " ^&1 | fzf-tmux -d$FZF_TMUX_HEIGHT"
+    else
+      commandline -aj " ^&1 | fzf"
+    end
+  end
+
   bind \ep updir
   bind \ct fzf-file-widget
-  bind \cr fzf-history-widget
+  bind \cr fzf-history-token-widget
   bind \ec fzf-cd-widget
-  bind \eo fzf-jump-cd
+  bind \eg fzf-jump-cd
+  bind \eo myprevd
+  bind \ei mynextd
+  bind \em fzf-command-go
   bind \ci fzf-complete
 end
