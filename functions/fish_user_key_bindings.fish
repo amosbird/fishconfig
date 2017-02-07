@@ -170,6 +170,12 @@ function fish_user_key_bindings
     end
   end
 
+  function open-magit -d "Open magit in emacs"
+    if emacsclient -n -eval "(magit-status $pwd)" ^&1 > /dev/null
+      tmux switch-client -t emacs
+    end
+  end
+
   bind \ep updir
   bind \cs last-sudo
   bind \cr fzf-history-token-widget
@@ -179,4 +185,5 @@ function fish_user_key_bindings
   bind \ei mynextd
   bind \em fzf-command-go
   bind \ci fzf-complete
+  bind \cg open-magit
 end
