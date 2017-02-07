@@ -130,8 +130,7 @@ function fish_user_key_bindings
       set cmd find
     end
     set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
-    command $cmd -L . \\( -path '*/\\.*' \\) -prune \
-    -o -type d -print 2> /dev/null | sed 1d | cut -b3-"
+    command $cmd -L -type d -print 2> /dev/null | sed 1d | cut -b3-"
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
@@ -176,6 +175,12 @@ function fish_user_key_bindings
     end
   end
 
+  function open-ranger -d "Open ranger in emacs"
+    if emacsclient -n -eval "(ranger $pwd)" ^&1 > /dev/null
+      tmux switch-client -t emacs
+    end
+  end
+
   bind \ep updir
   bind \cs last-sudo
   bind \cr fzf-history-token-widget
@@ -186,4 +191,5 @@ function fish_user_key_bindings
   bind \em fzf-command-go
   bind \ci fzf-complete
   bind \cg open-magit
+  bind \er open-ranger
 end
