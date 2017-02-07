@@ -162,8 +162,15 @@ function fish_user_key_bindings
     commandline -f execute
   end
 
+  function last-sudo -d "Execute last command using sudo if current commandline is empty"
+    if [ (commandline) = "" ]
+      commandline -a "sudo $history[1]"
+      commandline -f execute
+    end
+  end
+
   bind \ep updir
-  bind \ct fzf-file-widget
+  bind \cs last-sudo
   bind \cr fzf-history-token-widget
   bind \ec fzf-cd-widget
   bind \eg fzf-jump-cd
