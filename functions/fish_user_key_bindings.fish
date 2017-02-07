@@ -162,9 +162,10 @@ function fish_user_key_bindings
     commandline -f execute
   end
 
-  function last-sudo -d "Execute last command using sudo if current commandline is empty"
-    if [ (commandline) = "" ]
-      commandline -a "sudo $history[1]"
+  # TODO: prompt new line?
+  function last-sudo -d "Execute last command using sudo if current commandline is blank"
+    if string match -r '^ *$' (commandline)
+      commandline -r "sudo $history[1]"
       commandline -f execute
     end
   end
