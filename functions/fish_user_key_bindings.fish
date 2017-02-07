@@ -159,6 +159,7 @@ function fish_user_key_bindings
     else
       commandline -aj " ^&1 | fzf"
     end
+    commandline -f execute
   end
 
   bind \ep updir
