@@ -21,7 +21,10 @@ function fish_user_key_bindings
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
       eval "$FZF_ALT_C_COMMAND | "(__fzfcmd)" +m" | read -l result
-      [ "$result" ]; and cd $result
+      [ "$result" ]
+      and if not cd $result
+        jump clean
+      end
     end
     commandline -f repaint
   end
