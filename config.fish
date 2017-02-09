@@ -18,6 +18,8 @@ set -x JAVA_HOME /usr/lib/jvm/java-8-jdk/
 set -x GTK_IM_MODULE fcitx
 set -x XMODIFIERS @im=fcitx
 set -x QT_IM_MODULE fcitx
+set -x ASAN_OPTIONS "handle_segv=0:detect_leaks=0"
+set -x USE_GOLD_LINKER true
 
 set PATH $HOME/scripts $FZF_HOME/bin $GOPATH/bin $CARGO_HOME/bin $HOME/bin $PATH
 set PATH $HOME/idea-IU-162.2032.8/bin $PATH
