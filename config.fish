@@ -6,7 +6,9 @@ if set -q TMUX
   set FZF_TMUX 1
 end
 
+set -x TERMINFO $HOME/share/terminfo
 set -x FZF_DEFAULT_OPTS "--multi --bind=ctrl-v:half-page-down,alt-v:half-page-up,ctrl-l:accept"
+set -x LD_RUN_PATH "$HOME/lib64:$HOME/lib"
 set -x GOPATH $HOME/go
 set -x CARGO_HOME $HOME/.cargo
 set -x EDITOR vim
