@@ -115,7 +115,7 @@ function fish_user_key_bindings
         history | eval (__fzfcmd) -q '$str' | read -l result
         and commandline -- $result
       else
-        builtin history token -n 1000 | eval (__fzfcmd) -- -q '$tok' | read -l result
+        string tokenize -n 1000 -a | eval (__fzfcmd) -- -q '$tok' | read -l result
         and commandline -tr -- $result
       end
     end
@@ -182,6 +182,14 @@ function fish_user_key_bindings
     if emacsclient -n -eval "(ranger $pwd)" ^&1 > /dev/null
       tmux switch-client -t emacs
     end
+  end
+
+  function fish_clipboard_copy
+    set esc "\033]52;c;"(printf (commandline) | head -c 100000 | base64 | tr -d '\r\n')"\a"
+    if count $TMUX > /dev/null
+      set esc "\033Ptmux;\033"$esc"\033\\" # tmux
+    end
+    printf "$esc"
   end
 
   bind \ep updir
