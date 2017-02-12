@@ -115,7 +115,7 @@ function fish_user_key_bindings
         history | eval (__fzfcmd) -q '$str' | read -l result
         and commandline -- $result
       else
-        string tokenize -n 1000 -a | eval (__fzfcmd) -- -q '$tok' | read -l result
+        string tokenize -n 1000 -a | eval (__fzfcmd) -q '$tok' | read -l result
         and commandline -tr -- $result
       end
     end
