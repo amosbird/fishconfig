@@ -1,3 +1,3 @@
 function make -d "Make with bear"
-  bear -a make $argv
+  bear -a /usr/bin/make $argv
 end
