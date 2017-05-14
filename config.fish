@@ -38,4 +38,4 @@ status --is-interactive; and . (jump shell fish | psub)
 eval (direnv hook fish)
 
 # prepend path
-set -U fish_user_paths $HOME/scripts $FZF_HOME/bin $GOPATH/bin $CARGO_HOME/bin $CABAL_HOME/bin $HOME/bin /usr/local/go/bin /bin /sbin
+set -U fish_user_paths $HOME/scripts $FZF_HOME/bin $GOPATH/bin $CARGO_HOME/bin $CABAL_HOME/bin $HOME/bin /bin /sbin
