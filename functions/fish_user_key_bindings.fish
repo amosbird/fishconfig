@@ -203,4 +203,38 @@ function fish_user_key_bindings
   bind \ci fzf-complete
   bind \cg open-magit
   bind \er open-ranger
+
+  # tmux
+
+  function select-window --argument-names "n"
+    tmux select-window -t $n > /dev/null ^&1
+  end
+
+  function select-pane --argument-names "o"
+    tmux select-pane $o  > /dev/null ^&1
+  end
+
+  bind \e1 'select-window 1'
+  bind \e2 'select-window 2'
+  bind \e3 'select-window 3'
+  bind \e4 'select-window 4'
+  bind \e5 'select-window 5'
+  bind \e6 'select-window 6'
+  bind \e7 'select-window 7'
+  bind \e8 'select-window 8'
+  bind \e9 'select-window 9'
+  bind \e0 'select-window 10'
+
+  bind \eh 'select-pane -L'
+  bind \ej 'select-pane -D'
+  bind \ek 'select-pane -U'
+  bind \el 'select-pane -R'
+
+  bind \ev 'tmux copy-mode -u'
+  bind \cx1 'tmux resize-pane -Z'
+  bind \cx2 'tmux split-window -v -c "#{pane_current_path}"'
+  bind \cx3 'tmux split-window -h -c "#{pane_current_path}"'
+  bind \cxs 'tmux set synchronize-panes'
+  bind \cx\cc 'tmux detach-client'
+  bind \cxr 'tmux source-file ~/.tmux/.tmux.conf.amos \; tmux display "~/.tmux/.tmux.conf.amos sourced"'
 end
