@@ -16,7 +16,7 @@ function record_runtime --on-event fish_postexec
   echo "$argv       ($duration)" >> $HOME/.commandlog
 end
 
-set -x RUST_SRC_PATH /usr/src/rust/src
+set -x RUST_SRC_PATH /home/amos/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
 set -x TERMINFO $HOME/share/terminfo
 set -x FZF_DEFAULT_OPTS "--multi --bind=ctrl-v:half-page-down,alt-v:half-page-up,ctrl-l:accept"
 set -x LD_RUN_PATH "$HOME/lib64:$HOME/lib"
