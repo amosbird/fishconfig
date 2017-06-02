@@ -156,6 +156,12 @@ function fish_user_key_bindings
     printf "$esc"
   end
 
+  function pet-select
+    set -l query (commandline)
+    pet search --query "$query" $argv | read cmd
+    commandline $cmd
+  end
+
   bind \ep updir
   bind \cs last-sudo
   bind \cr fzf-history-token-widget
@@ -163,6 +169,7 @@ function fish_user_key_bindings
   bind \eg fzf-jump-cd
   bind \eo myprevd
   bind \ei mynextd
+  bind \el pet-select
   bind \em fzf-command-go
   bind \ci fzf-complete
   bind \cg open-magit
