@@ -85,10 +85,6 @@ function fish_user_key_bindings
     commandline -f repaint
   end
 
-  # TODO: wait bfs gets 1.0 to add fstype flags
-  # set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
-  # command $cmd -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
-  # -o -type d -print 2> /dev/null | sed 1d | cut -b3-"
   function fzf-cd-widget -d "Change directory"
     if type -q bfs
       set cmd bfs
@@ -96,7 +92,9 @@ function fish_user_key_bindings
       set cmd find
     end
     set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
-    command $cmd -L -type d -print 2> /dev/null | sed 1d | cut -b3-"
+    command $cmd -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
+    -o -type d -print 2> /dev/null | sed 1d | cut -b3-"
+    # command $cmd -L -type d -print 2> /dev/null | sed 1d | cut -b3-"
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
@@ -131,7 +129,7 @@ function fish_user_key_bindings
   # TODO: prompt new line?
   function last-sudo -d "Execute last command using sudo if current commandline is blank"
     if string match -r '^ *$' (commandline)
-      commandline -r "sudo $history[1]"
+      commandline -a "sudo $history[1]"
       commandline -f execute
     end
   end
@@ -164,6 +162,7 @@ function fish_user_key_bindings
 
   bind \ep updir
   bind \cs last-sudo
+  bind \cj 'commandline "sudo "(commandline); commandline -f execute'
   bind \cr fzf-history-token-widget
   bind \ec fzf-cd-widget
   bind \eg fzf-jump-cd

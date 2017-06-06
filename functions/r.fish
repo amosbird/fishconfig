@@ -1,4 +1,4 @@
-function rm
+function r
   if test (count $argv) -lt 1
     echo "Usage: $_ <filename|dir>*"
     return 1
