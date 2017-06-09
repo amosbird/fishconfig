@@ -92,9 +92,7 @@ function fish_user_key_bindings
       set cmd find
     end
     set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
-    command $cmd -L . \\( -path '*/\\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' \\) -prune \
-    -o -type d -print 2> /dev/null | sed 1d | cut -b3-"
-    # command $cmd -L -type d -print 2> /dev/null | sed 1d | cut -b3-"
+    command $cmd -L . -type d -print 2> /dev/null | sed 1d | cut -b3-"
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
@@ -126,22 +124,21 @@ function fish_user_key_bindings
     commandline -f execute
   end
 
-  # TODO: prompt new line?
   function last-sudo -d "Execute last command using sudo if current commandline is blank"
-    if string match -r '^ *$' (commandline)
+    if string match -r '^ *$' (commandline) > /dev/null ^&1
       commandline -a "sudo $history[1]"
       commandline -f execute
     end
   end
 
   function open-magit -d "Open magit in emacs"
-    if emacsclient -n -eval "(magit-status $pwd)" ^&1 > /dev/null
+    if emacsclient -n -eval "(magit-status $pwd)" > /dev/null ^&1
       tmux switch-client -t emacs
     end
   end
 
   function open-ranger -d "Open ranger in emacs"
-    if emacsclient -n -eval "(ranger $pwd)" ^&1 > /dev/null
+    if emacsclient -n -eval "(ranger $pwd)" > /dev/null ^&1
       tmux switch-client -t emacs
     end
   end
@@ -160,18 +157,37 @@ function fish_user_key_bindings
     commandline $cmd
   end
 
-  bind \ep updir
-  bind \cs last-sudo
-  bind \cj 'commandline "sudo "(commandline); commandline -f execute'
+  function ls-commandline -d "execute ls"
+    if string match -r '^ *$' (commandline) > /dev/null ^&1
+      commandline "ls"
+      commandline -f execute
+    else
+      return
+    end
+  end
+
+  function sudo-commandline -d "execute commandline using sudo"
+    if string match -r '^ *$' (commandline) > /dev/null ^&1
+      return
+    else
+      commandline "sudo "(commandline)
+      commandline -f execute
+    end
+  end
+
+  bind \cs sudo-commandline
+  bind \cv ls-commandline
   bind \cr fzf-history-token-widget
+  bind \ci fzf-complete
+  bind \cg open-magit
+  bind \ep updir
   bind \ec fzf-cd-widget
+  bind \en fzf-cd-widget
   bind \eg fzf-jump-cd
   bind \eo myprevd
   bind \ei mynextd
-  bind \el pet-select
+  bind \eu pet-select
   bind \em fzf-command-go
-  bind \ci fzf-complete
-  bind \cg open-magit
   bind \er open-ranger
 
   # tmux

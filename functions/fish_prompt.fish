@@ -27,5 +27,14 @@ function fish_prompt
 	  _print_in_color (_pwd_with_tilde) blue
   end
 
-  _print_in_color " ❯ " (_prompt_color_for_status $last_status)
+  if test -z $DIRENV_DIFF
+    _print_in_color " ❯ " (_prompt_color_for_status $last_status)
+  else
+    if true
+      _print_in_color " ENV" cyan
+    else
+	    _print_in_color " ENV" yellow
+    end
+    _print_in_color " ❯ " (_prompt_color_for_status $last_status)
+  end
 end
