@@ -23,11 +23,11 @@ function fish_prompt
   set -l last_status $status
 
   _print_in_color "\n" blue
-  if test -z $TMUX
+  if test -z "$TMUX"
 	  _print_in_color (_pwd_with_tilde) blue
   end
 
-  if test -z $DIRENV_DIFF
+  if test -z "$DIRENV_DIFF"
     _print_in_color " ❯ " (_prompt_color_for_status $last_status)
   else
     if true
