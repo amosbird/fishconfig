@@ -3,9 +3,6 @@ alias c++ g++
 alias sudo 'sudo -Es'
 alias ssh 'ssh -i ~/.ssh/id_rsa'
 
-# wget sucks with certificates. Let's keep it simple.
-alias wget "curl -O"
-
 set fish_color_command --bold
 set fish_greeting
 set FISH_CLIPBOARD_CMD cat
@@ -56,7 +53,8 @@ findmnt free semanage sar ss sysctl systemctl stat showmount tune2fs vmstat w wh
 
 for executable in $grc_plugin_execs
   if type -q $executable
-    alias $executable "grc $executable"
+    set cmd (type -p $executable)
+    echo "function $executable; if isatty 1; grc $cmd \$argv; else; $cmd \$argv; end; end" | source
   end
 end
 
