@@ -15,7 +15,7 @@ function fish_user_key_bindings
     nextd ^&1 > /dev/null
     commandline -f repaint
     eval (direnv export fish);
- end
+  end
 
   function fzf-jump-cd -d "Change directory"
     set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "command jump top"
@@ -23,46 +23,80 @@ function fish_user_key_bindings
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
       eval "$FZF_ALT_C_COMMAND | "(__fzfcmd)" +m" | read -l result
-      [ "$result" ]
-      and if not cd $result
-        jump clean
+      if string match -r '^ *$' (commandline) > /dev/null ^&1
+        [ "$result" ]
+        and if not cd $result
+          jump clean
+        end
+      else
+        [ "$result" ]
+        and commandline -i $result
       end
     end
     commandline -f repaint
     eval (direnv export fish);
   end
 
+  function fzf-select -d 'fzf commandline job and print unescaped selection back to commandline'
+	  set -l cmd (commandline -j)
+    set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
+	  [ "$cmd" ]; or return
+	  eval $cmd | eval (__fzfcmd) -m --height $FZF_TMUX_HEIGHT --reverse --tiebreak=index --select-1 --exit-0 | string join ' ' | read -l result
+	  [ "$result" ]; and commandline -j -- $result
+	  commandline -f repaint
+  end
+
   function fzf-complete -d 'fzf completion and print selection back to commandline'
-      set -l complist (complete -C(commandline -c))
-      set -l result
-      string join -- \n $complist | sort | eval (__fzfcmd) -m --tiebreak=index --select-1 --exit-0 --header '(commandline)' | cut -f1 | while read -l r; set result $result $r; end
-
-      for i in (seq (count $result))
-          set -l r $result[$i]
-          ## We need to escape the result.
-          switch (string sub -s 1 -l 1 -- (commandline -t))
-              case "'"
-                  commandline -t -- (string escape -- (eval "printf '%s' '$r'"))
-              case '"'
-                  set -l quoted (string escape -- (eval "printf '%s' '$r'"))
-                  set -l len (string length $quoted)
-                  commandline -t -- '"'(string sub -s 2 -l (math $len - 2) (string escape -- (eval "printf '%s' '$r'")))'"'
-              case '~'
-                  commandline -t -- (string sub -s 2 (string escape -n -- (eval "printf '%s' '$r'")))
-              case '*'
-                  commandline -t -- (string escape -n -- (eval "printf '%s' '$r'"))
+    # As of 2.6, fish's "complete" function does not understand
+    # subcommands. Instead, we use the same hack as __fish_complete_subcommand and
+    # extract the subcommand manually.
+    set -l cmd (commandline -co) (commandline -ct)
+    switch $cmd[1]
+      case env sudo
+        for i in (seq 2 (count $cmd))
+          switch $cmd[$i]
+            case '-*'
+            case '*=*'
+            case '*'
+              set cmd $cmd[$i..-1]
+              break
           end
-          [ $i -lt (count $result) ]; and commandline -i ' '
-      end
+        end
+    end
+    set cmd (string join -- ' ' $cmd)
 
-      commandline -f repaint
+    set -l complist (complete -C$cmd)
+    set -l result
+    set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
+    string join -- \n $complist | sort | eval (__fzfcmd) -m --height $FZF_TMUX_HEIGHT --reverse --select-1 --exit-0 --header '(commandline)' | cut -f1 | while read -l r; set result $result $r; end
+    set prefix (string sub -s 1 -l 1 -- (commandline -t))
+    for i in (seq (count $result))
+      set -l r $result[$i]
+      switch $prefix
+        case "'"
+          commandline -t -- (string escape -- $r)
+        case '"'
+          if string match '*"*' -- $r >/dev/null
+            commandline -t --  (string escape -- $r)
+          else
+            commandline -t -- '"'$r'"'
+          end
+        case '~'
+          commandline -t -- (string sub -s 2 (string escape -n -- $r))
+        case '*'
+          commandline -t -- (string escape -n -- $r)
+      end
+      [ $i -lt (count $result) ]; and commandline -i ' '
+	  end
+
+	  commandline -f repaint
   end
 
   function fzf-history-widget -d "Show command history"
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
-      set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS +s --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
-      history | eval (__fzfcmd) -q '(commandline)' | read -l result
+      set -lx FZF_DEFAULT_OPTS "--read0 --reverse --height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS +s --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
+      history -z |  eval (__fzfcmd) -q '(commandline)' | read -l result
       and commandline -- $result
     end
     commandline -f repaint
@@ -73,10 +107,10 @@ function fish_user_key_bindings
     set str (commandline -jc)
     set tok (commandline -tc)
     begin
-      set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS +s --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
+      set -lx FZF_DEFAULT_OPTS "--reverse --height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS +s --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
       if [ $str = $tok ]
-        history | eval (__fzfcmd) -q '$str' | read -l result
-        and commandline -- $result
+        history -z | eval (__fzfcmd) --read0 -q '$str' | read -lz result
+        and commandline -r -- $result
       else
         string tokenize -n 1000 -a | eval (__fzfcmd) -q '$tok' | read -l result
         and commandline -tr -- $result
@@ -187,7 +221,8 @@ function fish_user_key_bindings
   bind \eo myprevd
   bind \ei mynextd
   bind \eu pet-select
-  bind \em fzf-command-go
+  # bind \em fzf-command-go
+  bind \em fzf-select
   bind \er open-ranger
 
   # tmux
