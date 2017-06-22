@@ -1,6 +1,6 @@
 function mailto -d "Mail to url" --argument-names 'url'
   if _mailto $argv
-    i3-msg workspace "2: "
+    i3-msg workspace ""
   else
     notify-send -t "mail" "mu4e" "Bad url!"
   end
@@ -11,5 +11,5 @@ function _mailto -d "Mail to url" --argument-names 'url'
     echo "Usage: $_ <mailto url>"
     return 1
   end
-  emacsclient -s mail -eval "(browse-url-mail \"$url\")"
+  emacsclient -eval "(browse-url-mail \"$url\")"
 end
