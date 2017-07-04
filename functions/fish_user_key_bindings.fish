@@ -218,7 +218,7 @@ function fish_user_key_bindings
 
   function my-edit-command -d "edit command buffer or tmux buffer"
     if string match -r '^ *$' (commandline) > /dev/null ^&1
-      bash -c "vim <(tmux capture-pane -S - -E - -p)"
+      vim (tmux capture-pane -S - -E - -p | psub)
     else
       edit_command_buffer
     end
