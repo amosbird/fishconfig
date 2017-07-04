@@ -125,8 +125,7 @@ function fish_user_key_bindings
     else
       set cmd find
     end
-    set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "
-    command $cmd -L . -type d -print 2> /dev/null | sed 1d | cut -b3-"
+    set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "command $cmd -type d"
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
@@ -217,6 +216,14 @@ function fish_user_key_bindings
     end
   end
 
+  function my-edit-command -d "edit command buffer or tmux buffer"
+    if string match -r '^ *$' (commandline) > /dev/null ^&1
+      bash -c "vim <(tmux capture-pane -S - -E - -p)"
+    else
+      edit_command_buffer
+    end
+  end
+
   bind \cs sudo-commandline
   bind \cv ls-commandline
   bind \cr fzf-history-token-widget
@@ -232,6 +239,7 @@ function fish_user_key_bindings
   # bind \em fzf-command-go
   bind \em fzf-select
   bind \er open-ranger
+  bind \ee my-edit-command
 
   # tmux
 
