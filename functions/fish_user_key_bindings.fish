@@ -167,13 +167,21 @@ function fish_user_key_bindings
 
   function open-magit -d "Open magit in emacs"
     if emacsclient -n -eval "(magit-status $pwd)" > /dev/null ^&1
-      tmux switch-client -t emacs
+      if test -z $T450s
+        tmux switch-client -t emacs
+      else
+        i3-msg move to scratchpad, workspace  > /dev/null ^&1
+      end
     end
   end
 
   function open-ranger -d "Open ranger in emacs"
     if emacsclient -n -eval "(ranger $pwd)" > /dev/null ^&1
-      tmux switch-client -t emacs
+      if test -z $T450s
+        tmux switch-client -t emacs
+      else
+        i3-msg move to scratchpad, workspace  > /dev/null ^&1
+      end
     end
   end
 
