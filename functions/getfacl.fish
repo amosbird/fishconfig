@@ -1,11 +1,11 @@
 function getfacl
   if command -s getfacl > /dev/null
-    echo fish: Unknown command \'getfacl\'
-  else
     if isatty 1
       grc (command -s getfacl) $argv
     else
       command getfacl $argv
     end
+  else
+    echo fish: Unknown command \'getfacl\'
   end
 end
