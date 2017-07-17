@@ -1,7 +1,11 @@
 function gcc
-  if isatty 1
-    grc /usr/local/bin/gcc $argv
+  if type -q gcc
+    echo fish: Unknown command \'gcc\'
   else
-    /usr/local/bin/gcc $argv
+    if isatty 1
+      grc (command -s gcc) $argv
+    else
+      command gcc $argv
+    end
   end
 end

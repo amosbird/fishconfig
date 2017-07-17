@@ -1,7 +1,11 @@
 function id
-  if isatty 1
-    grc /usr/bin/id $argv
+  if type -q id
+    echo fish: Unknown command \'id\'
   else
-    /usr/bin/id $argv
+    if isatty 1
+      grc (command -s id) $argv
+    else
+      command id $argv
+    end
   end
 end

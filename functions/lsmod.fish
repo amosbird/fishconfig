@@ -1,7 +1,11 @@
 function lsmod
-  if isatty 1
-    grc /usr/sbin/lsmod $argv
+  if type -q lsmod
+    echo fish: Unknown command \'lsmod\'
   else
-    /usr/sbin/lsmod $argv
+    if isatty 1
+      grc (command -s lsmod) $argv
+    else
+      command lsmod $argv
+    end
   end
 end

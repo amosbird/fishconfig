@@ -1,7 +1,11 @@
 function ps
-  if isatty 1
-    grc /usr/bin/ps $argv
+  if type -q ps
+    echo fish: Unknown command \'ps\'
   else
-    /usr/bin/ps $argv
+    if isatty 1
+      grc (command -s ps) $argv
+    else
+      command ps $argv
+    end
   end
 end

@@ -1,7 +1,11 @@
 function ping
-  if isatty 1
-    grc /usr/bin/ping $argv
+  if type -q ping
+    echo fish: Unknown command \'ping\'
   else
-    /usr/bin/ping $argv
+    if isatty 1
+      grc (command -s ping) $argv
+    else
+      command ping $argv
+    end
   end
 end

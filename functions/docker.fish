@@ -1,7 +1,11 @@
 function docker
-  if isatty 1
-    grc /usr/bin/docker $argv
+  if type -q docker
+    echo fish: Unknown command \'docker\'
   else
-    /usr/bin/docker $argv
+    if isatty 1
+      grc (command -s docker) $argv
+    else
+      command docker $argv
+    end
   end
 end

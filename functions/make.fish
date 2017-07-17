@@ -1,7 +1,11 @@
 function make
-  if isatty 1
-    grc /usr/bin/make $argv
+  if type -q make
+    echo fish: Unknown command \'make\'
   else
-    /usr/bin/make $argv
+    if isatty 1
+      grc (command -s make) $argv
+    else
+      command make $argv
+    end
   end
 end

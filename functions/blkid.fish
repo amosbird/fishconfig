@@ -1,7 +1,11 @@
 function blkid
-  if isatty 1
-    grc /usr/sbin/blkid $argv
+  if type -q blkid
+    echo fish: Unknown command \'blkid\'
   else
-    /usr/sbin/blkid $argv
+    if isatty 1
+      grc (command -s blkid) $argv
+    else
+      command blkid $argv
+    end
   end
 end

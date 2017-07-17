@@ -1,7 +1,11 @@
 function ip
-  if isatty 1
-    grc /usr/sbin/ip $argv
+  if type -q ip
+    echo fish: Unknown command \'ip\'
   else
-    /usr/sbin/ip $argv
+    if isatty 1
+      grc (command -s ip) $argv
+    else
+      command ip $argv
+    end
   end
 end

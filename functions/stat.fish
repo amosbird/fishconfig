@@ -1,7 +1,11 @@
 function stat
-  if isatty 1
-    grc /usr/bin/stat $argv
+  if type -q stat
+    echo fish: Unknown command \'stat\'
   else
-    /usr/bin/stat $argv
+    if isatty 1
+      grc (command -s stat) $argv
+    else
+      command stat $argv
+    end
   end
 end

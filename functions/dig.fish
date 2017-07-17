@@ -1,7 +1,11 @@
 function dig
-  if isatty 1
-    grc /usr/bin/dig $argv
+  if type -q dig
+    echo fish: Unknown command \'dig\'
   else
-    /usr/bin/dig $argv
+    if isatty 1
+      grc (command -s dig) $argv
+    else
+      command dig $argv
+    end
   end
 end

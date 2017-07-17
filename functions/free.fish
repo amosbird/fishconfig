@@ -1,7 +1,11 @@
 function free
-  if isatty 1
-    grc /usr/bin/free $argv
+  if type -q free
+    echo fish: Unknown command \'free\'
   else
-    /usr/bin/free $argv
+    if isatty 1
+      grc (command -s free) $argv
+    else
+      command free $argv
+    end
   end
 end

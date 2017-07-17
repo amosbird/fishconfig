@@ -1,7 +1,11 @@
 function diff
-  if isatty 1
-    grc /usr/bin/diff $argv
+  if type -q diff
+    echo fish: Unknown command \'diff\'
   else
-    /usr/bin/diff $argv
+    if isatty 1
+      grc (command -s diff) $argv
+    else
+      command diff $argv
+    end
   end
 end

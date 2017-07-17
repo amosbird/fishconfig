@@ -1,7 +1,11 @@
 function df
-  if isatty 1
-    grc /usr/bin/df $argv
+  if type -q df
+    echo fish: Unknown command \'df\'
   else
-    /usr/bin/df $argv
+    if isatty 1
+      grc (command -s df) $argv
+    else
+      command df $argv
+    end
   end
 end

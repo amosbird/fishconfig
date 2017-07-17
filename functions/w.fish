@@ -1,7 +1,11 @@
 function w
-  if isatty 1
-    grc /usr/bin/w $argv
+  if type -q w
+    echo fish: Unknown command \'w\'
   else
-    /usr/bin/w $argv
+    if isatty 1
+      grc (command -s w) $argv
+    else
+      command w $argv
+    end
   end
 end

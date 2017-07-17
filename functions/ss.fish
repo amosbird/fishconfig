@@ -1,7 +1,11 @@
 function ss
-  if isatty 1
-    grc /usr/sbin/ss $argv
+  if type -q ss
+    echo fish: Unknown command \'ss\'
   else
-    /usr/sbin/ss $argv
+    if isatty 1
+      grc (command -s ss) $argv
+    else
+      command ss $argv
+    end
   end
 end

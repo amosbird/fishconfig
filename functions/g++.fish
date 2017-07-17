@@ -1,7 +1,11 @@
 function g++
-  if isatty 1
-    grc /usr/local/bin/g++ $argv
+  if type -q g++
+    echo fish: Unknown command \'g++\'
   else
-    /usr/local/bin/g++ $argv
+    if isatty 1
+      grc (command -s g++) $argv
+    else
+      command g++ $argv
+    end
   end
 end

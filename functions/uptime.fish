@@ -1,7 +1,11 @@
 function uptime
-  if isatty 1
-    grc /usr/bin/uptime $argv
+  if type -q uptime
+    echo fish: Unknown command \'uptime\'
   else
-    /usr/bin/uptime $argv
+    if isatty 1
+      grc (command -s uptime) $argv
+    else
+      command uptime $argv
+    end
   end
 end

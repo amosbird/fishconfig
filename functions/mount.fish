@@ -1,7 +1,11 @@
 function mount
-  if isatty 1
-    grc /usr/bin/mount $argv
+  if type -q mount
+    echo fish: Unknown command \'mount\'
   else
-    /usr/bin/mount $argv
+    if isatty 1
+      grc (command -s mount) $argv
+    else
+      command mount $argv
+    end
   end
 end

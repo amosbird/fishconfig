@@ -1,7 +1,11 @@
 function semanage
-  if isatty 1
-    grc /usr/sbin/semanage $argv
+  if type -q semanage
+    echo fish: Unknown command \'semanage\'
   else
-    /usr/sbin/semanage $argv
+    if isatty 1
+      grc (command -s semanage) $argv
+    else
+      command semanage $argv
+    end
   end
 end

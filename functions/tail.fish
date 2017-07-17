@@ -1,7 +1,11 @@
 function tail
-  if isatty 1
-    grc /usr/bin/tail $argv
+  if type -q tail
+    echo fish: Unknown command \'tail\'
   else
-    /usr/bin/tail $argv
+    if isatty 1
+      grc (command -s tail) $argv
+    else
+      command tail $argv
+    end
   end
 end

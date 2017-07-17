@@ -1,7 +1,11 @@
 function getfacl
-  if isatty 1
-    grc /usr/bin/getfacl $argv
+  if type -q getfacl
+    echo fish: Unknown command \'getfacl\'
   else
-    /usr/bin/getfacl $argv
+    if isatty 1
+      grc (command -s getfacl) $argv
+    else
+      command getfacl $argv
+    end
   end
 end

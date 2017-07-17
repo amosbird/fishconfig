@@ -1,7 +1,11 @@
 function env
-  if isatty 1
-    grc /usr/bin/env $argv
+  if type -q env
+    echo fish: Unknown command \'env\'
   else
-    /usr/bin/env $argv
+    if isatty 1
+      grc (command -s env) $argv
+    else
+      command env $argv
+    end
   end
 end

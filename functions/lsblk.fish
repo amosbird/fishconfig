@@ -1,7 +1,11 @@
 function lsblk
-  if isatty 1
-    grc /usr/bin/lsblk $argv
+  if type -q lsblk
+    echo fish: Unknown command \'lsblk\'
   else
-    /usr/bin/lsblk $argv
+    if isatty 1
+      grc (command -s lsblk) $argv
+    else
+      command lsblk $argv
+    end
   end
 end

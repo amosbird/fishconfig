@@ -1,7 +1,11 @@
 function du
-  if isatty 1
-    grc /usr/bin/du $argv
+  if type -q du
+    echo fish: Unknown command \'du\'
   else
-    /usr/bin/du $argv
+    if isatty 1
+      grc (command -s du) $argv
+    else
+      command du $argv
+    end
   end
 end

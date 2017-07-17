@@ -1,7 +1,11 @@
 function who
-  if isatty 1
-    grc /usr/bin/who $argv
+  if type -q who
+    echo fish: Unknown command \'who\'
   else
-    /usr/bin/who $argv
+    if isatty 1
+      grc (command -s who) $argv
+    else
+      command who $argv
+    end
   end
 end
