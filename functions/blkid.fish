@@ -1,5 +1,5 @@
 function blkid
-  if type -q blkid
+  if command -s blkid > /dev/null
     echo fish: Unknown command \'blkid\'
   else
     if isatty 1

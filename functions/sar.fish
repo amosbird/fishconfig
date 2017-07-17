@@ -1,5 +1,5 @@
 function sar
-  if type -q sar
+  if command -s sar > /dev/null
     echo fish: Unknown command \'sar\'
   else
     if isatty 1

@@ -1,5 +1,5 @@
 function netstat
-  if type -q netstat
+  if command -s netstat > /dev/null
     echo fish: Unknown command \'netstat\'
   else
     if isatty 1

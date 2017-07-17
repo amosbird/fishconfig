@@ -1,5 +1,5 @@
 function traceroute
-  if type -q traceroute
+  if command -s traceroute > /dev/null
     echo fish: Unknown command \'traceroute\'
   else
     if isatty 1

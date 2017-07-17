@@ -1,5 +1,5 @@
 function sysctl
-  if type -q sysctl
+  if command -s sysctl > /dev/null
     echo fish: Unknown command \'sysctl\'
   else
     if isatty 1

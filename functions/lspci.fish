@@ -1,5 +1,5 @@
 function lspci
-  if type -q lspci
+  if command -s lspci > /dev/null
     echo fish: Unknown command \'lspci\'
   else
     if isatty 1

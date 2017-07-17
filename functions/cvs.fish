@@ -1,5 +1,5 @@
 function cvs
-  if type -q cvs
+  if command -s cvs > /dev/null
     echo fish: Unknown command \'cvs\'
   else
     if isatty 1

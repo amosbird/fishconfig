@@ -1,5 +1,5 @@
 function df
-  if type -q df
+  if command -s df > /dev/null
     echo fish: Unknown command \'df\'
   else
     if isatty 1

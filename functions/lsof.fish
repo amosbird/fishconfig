@@ -1,5 +1,5 @@
 function lsof
-  if type -q lsof
+  if command -s lsof > /dev/null
     echo fish: Unknown command \'lsof\'
   else
     if isatty 1

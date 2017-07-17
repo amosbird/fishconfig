@@ -1,5 +1,5 @@
 function tune2fs
-  if type -q tune2fs
+  if command -s tune2fs > /dev/null
     echo fish: Unknown command \'tune2fs\'
   else
     if isatty 1

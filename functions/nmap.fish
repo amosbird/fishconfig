@@ -1,5 +1,5 @@
 function nmap
-  if type -q nmap
+  if command -s nmap > /dev/null
     echo fish: Unknown command \'nmap\'
   else
     if isatty 1

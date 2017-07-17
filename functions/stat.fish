@@ -1,5 +1,5 @@
 function stat
-  if type -q stat
+  if command -s stat > /dev/null
     echo fish: Unknown command \'stat\'
   else
     if isatty 1

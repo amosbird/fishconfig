@@ -1,5 +1,5 @@
 function ps
-  if type -q ps
+  if command -s ps > /dev/null
     echo fish: Unknown command \'ps\'
   else
     if isatty 1

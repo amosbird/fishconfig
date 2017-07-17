@@ -1,5 +1,5 @@
 function gcc
-  if type -q gcc
+  if command -s gcc > /dev/null
     echo fish: Unknown command \'gcc\'
   else
     if isatty 1

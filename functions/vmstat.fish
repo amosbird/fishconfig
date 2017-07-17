@@ -1,5 +1,5 @@
 function vmstat
-  if type -q vmstat
+  if command -s vmstat > /dev/null
     echo fish: Unknown command \'vmstat\'
   else
     if isatty 1

@@ -1,5 +1,5 @@
 function dig
-  if type -q dig
+  if command -s dig > /dev/null
     echo fish: Unknown command \'dig\'
   else
     if isatty 1

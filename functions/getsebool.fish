@@ -1,5 +1,5 @@
 function getsebool
-  if type -q getsebool
+  if command -s getsebool > /dev/null
     echo fish: Unknown command \'getsebool\'
   else
     if isatty 1

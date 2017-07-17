@@ -1,5 +1,5 @@
 function docker
-  if type -q docker
+  if command -s docker > /dev/null
     echo fish: Unknown command \'docker\'
   else
     if isatty 1

@@ -1,5 +1,5 @@
 function showmount
-  if type -q showmount
+  if command -s showmount > /dev/null
     echo fish: Unknown command \'showmount\'
   else
     if isatty 1

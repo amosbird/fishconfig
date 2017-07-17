@@ -1,5 +1,5 @@
 function last
-  if type -q last
+  if command -s last > /dev/null
     echo fish: Unknown command \'last\'
   else
     if isatty 1

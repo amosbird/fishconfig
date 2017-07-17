@@ -1,5 +1,5 @@
 function tail
-  if type -q tail
+  if command -s tail > /dev/null
     echo fish: Unknown command \'tail\'
   else
     if isatty 1

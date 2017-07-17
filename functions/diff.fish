@@ -1,5 +1,5 @@
 function diff
-  if type -q diff
+  if command -s diff > /dev/null
     echo fish: Unknown command \'diff\'
   else
     if isatty 1

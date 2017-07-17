@@ -1,5 +1,5 @@
 function semanage
-  if type -q semanage
+  if command -s semanage > /dev/null
     echo fish: Unknown command \'semanage\'
   else
     if isatty 1

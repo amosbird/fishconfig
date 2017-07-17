@@ -1,5 +1,5 @@
 function env
-  if type -q env
+  if command -s env > /dev/null
     echo fish: Unknown command \'env\'
   else
     if isatty 1

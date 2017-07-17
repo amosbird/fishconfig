@@ -1,5 +1,5 @@
 function wdiff
-  if type -q wdiff
+  if command -s wdiff > /dev/null
     echo fish: Unknown command \'wdiff\'
   else
     if isatty 1

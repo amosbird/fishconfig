@@ -1,5 +1,5 @@
 function id
-  if type -q id
+  if command -s id > /dev/null
     echo fish: Unknown command \'id\'
   else
     if isatty 1

@@ -1,5 +1,5 @@
 function g++
-  if type -q g++
+  if command -s g++ > /dev/null
     echo fish: Unknown command \'g++\'
   else
     if isatty 1

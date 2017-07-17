@@ -1,5 +1,5 @@
 function ss
-  if type -q ss
+  if command -s ss > /dev/null
     echo fish: Unknown command \'ss\'
   else
     if isatty 1

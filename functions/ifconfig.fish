@@ -1,5 +1,5 @@
 function ifconfig
-  if type -q ifconfig
+  if command -s ifconfig > /dev/null
     echo fish: Unknown command \'ifconfig\'
   else
     if isatty 1

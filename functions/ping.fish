@@ -1,5 +1,5 @@
 function ping
-  if type -q ping
+  if command -s ping > /dev/null
     echo fish: Unknown command \'ping\'
   else
     if isatty 1

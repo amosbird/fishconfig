@@ -1,5 +1,5 @@
 function docker-machine
-  if type -q docker-machine
+  if command -s docker-machine > /dev/null
     echo fish: Unknown command \'docker-machine\'
   else
     if isatty 1

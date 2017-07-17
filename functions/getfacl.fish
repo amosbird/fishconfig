@@ -1,5 +1,5 @@
 function getfacl
-  if type -q getfacl
+  if command -s getfacl > /dev/null
     echo fish: Unknown command \'getfacl\'
   else
     if isatty 1

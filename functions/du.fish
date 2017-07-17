@@ -1,5 +1,5 @@
 function du
-  if type -q du
+  if command -s du > /dev/null
     echo fish: Unknown command \'du\'
   else
     if isatty 1

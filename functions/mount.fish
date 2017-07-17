@@ -1,5 +1,5 @@
 function mount
-  if type -q mount
+  if command -s mount > /dev/null
     echo fish: Unknown command \'mount\'
   else
     if isatty 1

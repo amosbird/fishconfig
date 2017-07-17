@@ -1,5 +1,5 @@
 function free
-  if type -q free
+  if command -s free > /dev/null
     echo fish: Unknown command \'free\'
   else
     if isatty 1

@@ -1,5 +1,5 @@
 function lsmod
-  if type -q lsmod
+  if command -s lsmod > /dev/null
     echo fish: Unknown command \'lsmod\'
   else
     if isatty 1

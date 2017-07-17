@@ -1,5 +1,5 @@
 function ip
-  if type -q ip
+  if command -s ip > /dev/null
     echo fish: Unknown command \'ip\'
   else
     if isatty 1

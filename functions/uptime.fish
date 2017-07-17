@@ -1,5 +1,5 @@
 function uptime
-  if type -q uptime
+  if command -s uptime > /dev/null
     echo fish: Unknown command \'uptime\'
   else
     if isatty 1

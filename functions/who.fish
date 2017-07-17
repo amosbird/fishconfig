@@ -1,5 +1,5 @@
 function who
-  if type -q who
+  if command -s who > /dev/null
     echo fish: Unknown command \'who\'
   else
     if isatty 1

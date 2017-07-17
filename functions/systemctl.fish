@@ -1,5 +1,5 @@
 function systemctl
-  if type -q systemctl
+  if command -s systemctl > /dev/null
     echo fish: Unknown command \'systemctl\'
   else
     if isatty 1

@@ -1,5 +1,5 @@
 function w
-  if type -q w
+  if command -s w > /dev/null
     echo fish: Unknown command \'w\'
   else
     if isatty 1

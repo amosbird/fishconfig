@@ -1,5 +1,5 @@
 function iostat
-  if type -q iostat
+  if command -s iostat > /dev/null
     echo fish: Unknown command \'iostat\'
   else
     if isatty 1
