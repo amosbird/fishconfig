@@ -97,7 +97,7 @@ function fish_user_key_bindings
     begin
       set -lx FZF_DEFAULT_OPTS "--read0 --reverse --height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS +s --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
       history -z |  eval (__fzfcmd) -q '(commandline)' | read -l result
-      and commandline -- $result
+      and commandline -r -- (string trim -r $result)
     end
     commandline -f repaint
   end
@@ -110,7 +110,7 @@ function fish_user_key_bindings
       set -lx FZF_DEFAULT_OPTS "--reverse --height $FZF_TMUX_HEIGHT $FZF_DEFAULT_OPTS +s --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m"
       if [ $str = $tok ]
         history -z | eval (__fzfcmd) --read0 -q '$str' | read -lz result
-        and commandline -r -- $result
+        and commandline -r -- (string trim -r $result)
       else
         string tokenize -n 1000 -a | eval (__fzfcmd) -q '$tok' | read -l result
         and commandline -tr -- $result
