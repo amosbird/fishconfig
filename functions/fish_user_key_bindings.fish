@@ -125,7 +125,8 @@ function fish_user_key_bindings
     else
       set cmd find
     end
-    set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "command $cmd -type d"
+    # set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "command $cmd -type d"
+    set -q FZF_ALT_C_COMMAND; or set -l FZF_ALT_C_COMMAND "command find ./ -mindepth 1 -maxdepth 1 -type d"
     set -q FZF_TMUX_HEIGHT; or set FZF_TMUX_HEIGHT 40%
     begin
       set -lx FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
@@ -225,7 +226,7 @@ function fish_user_key_bindings
   end
 
   bind \cs sudo-commandline
-  bind \cv ls-commandline
+  bind \em ls-commandline
   bind \cr fzf-history-token-widget
   bind \ci fzf-complete
   bind \cg open-magit
@@ -237,7 +238,7 @@ function fish_user_key_bindings
   bind \ei mynextd
   bind \eu pet-select
   # bind \em fzf-command-go
-  bind \em fzf-select
+  bind \cv fzf-select
   bind \er open-ranger
   bind \ee my-edit-command
 

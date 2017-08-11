@@ -23,7 +23,7 @@ set -x ASAN_OPTIONS "handle_segv=0:detect_leaks=0"
 set -x USE_GOLD_LINKER true
 set -x DIRENV_LOG_FORMAT ""
 set -x FLAMEGRAPH_DIR /home/amos/softwares/FlameGraph
-set UID (id -u)
+set -x UID (id -u)
 
 status --is-interactive;
 and function __jump_add --on-variable PWD
