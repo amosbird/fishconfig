@@ -170,7 +170,8 @@ function fish_user_key_bindings
       if test -z $T450s
         tmux switch-client -t emacs
       else
-        i3-msg move to scratchpad, workspace  > /dev/null ^&1
+        i3-msg '[instance="^urxvt_scratchpad"]' move to scratchpad > /dev/null ^&1
+        i3-msg  workspace  > /dev/null ^&1
       end
     end
   end
@@ -180,7 +181,8 @@ function fish_user_key_bindings
       if test -z $T450s
         tmux switch-client -t emacs
       else
-        i3-msg move to scratchpad, workspace  > /dev/null ^&1
+        i3-msg '[instance="^urxvt_scratchpad"]' move to scratchpad > /dev/null ^&1
+        i3-msg workspace  > /dev/null ^&1
       end
     end
   end
@@ -231,7 +233,6 @@ function fish_user_key_bindings
   bind \ci fzf-complete
   bind \cg open-magit
   bind \ep updir
-  bind \ec fzf-cd-widget
   bind \en fzf-cd-widget
   bind \eg fzf-jump-cd
   bind \eo myprevd
