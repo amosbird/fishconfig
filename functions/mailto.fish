@@ -11,5 +11,5 @@ function _mailto -d "Mail to url" --argument-names 'url'
     echo "Usage: $_ <mailto url>"
     return 1
   end
-  emacsclient -eval "(browse-url-mail \"$url\")"
+  emacsclient --display $DISPLAY -eval "(with-selected-frame (cdr (assoc \"mail-frame\" (make-frame-names-alist))) (browse-url-mail \"$url\"))"
 end
