@@ -119,6 +119,13 @@ function fish_user_key_bindings
     commandline -f repaint
   end
 
+  function elvish-nav -d ""
+    nav -d 80% | read -l result
+    [ "$result" ]; and cd $result
+    commandline -f repaint
+    eval (direnv export fish);
+  end
+
   function fzf-cd-widget -d "Change directory"
     if type -q bfs
       set cmd bfs
@@ -233,7 +240,8 @@ function fish_user_key_bindings
   bind \ci fzf-complete
   bind \cg open-magit
   bind \ep updir
-  bind \en fzf-cd-widget
+  # bind \en fzf-cd-widget
+  bind \en elvish-nav
   bind \eg fzf-jump-cd
   bind \eo myprevd
   bind \ei mynextd
