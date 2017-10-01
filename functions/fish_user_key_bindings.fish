@@ -120,8 +120,10 @@ function fish_user_key_bindings
   end
 
   function elvish-nav -d ""
-    nav -d 80% | read -l result
+    tput smcup
+    elvish | read -l result
     [ "$result" ]; and cd $result
+    tput rmcup
     commandline -f repaint
     eval (direnv export fish);
   end
