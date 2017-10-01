@@ -1,6 +1,6 @@
 function i3focus --argument-names 'd' 't'
   if test (count $argv) -ne 2
-    echo "Usage: $_ <filename>"
+    echo "Usage: $_ <direction> <filename>"
     return 1
   end
   set max 74994
