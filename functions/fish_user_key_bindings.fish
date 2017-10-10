@@ -219,6 +219,15 @@ function fish_user_key_bindings
     end
   end
 
+  function proxy-commandline -d "execute commandline using proxychains"
+    if string match -r '^ *$' (commandline) > /dev/null ^&1
+      return
+    else
+      commandline "proxychains "(commandline)
+      commandline -f execute
+    end
+  end
+
   function sudo-commandline -d "execute commandline using sudo"
     if string match -r '^ *$' (commandline) > /dev/null ^&1
       return
@@ -237,6 +246,7 @@ function fish_user_key_bindings
   end
 
   bind \cs sudo-commandline
+  bind \& proxy-commandline
   bind \em ls-commandline
   bind \cr fzf-history-token-widget
   bind \ci fzf-complete
