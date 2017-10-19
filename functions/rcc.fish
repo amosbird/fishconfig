@@ -1,4 +1,4 @@
-function rc -d "rsync a file over a cluster" --argument-names 'filename'
+function rcc -d "rsync a file over a cluster" --argument-names 'filename'
   if not test -e $filename
     echo "file not exist"
     return 1

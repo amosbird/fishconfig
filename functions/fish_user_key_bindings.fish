@@ -246,7 +246,7 @@ function fish_user_key_bindings
   end
 
   bind \cs sudo-commandline
-  bind \& proxy-commandline
+  bind \e` proxy-commandline
   bind \em ls-commandline
   bind \cr fzf-history-token-widget
   bind \ci fzf-complete

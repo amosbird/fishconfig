@@ -10,6 +10,6 @@ function cmakebuild
         popd
     end
     if test -f build/CMakeCache.txt
-        cmake --build build
+        cmake --build build -- -j(nproc)
     end
 end
