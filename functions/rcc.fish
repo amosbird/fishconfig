@@ -25,9 +25,9 @@ function rcc -d "rsync a file over a cluster" --argument-names 'filename'
 
   set syncpath (realpath $filename)
   set dirpath (dirname $syncpath"dummy")
-  while read -la host
-      rsync --rsync-path="mkdir -p $dirpath && rsync" --delete -a $filename $host:$syncpath
-  end < $hostfile
-  return 0
-  # parallel rsync --rsync-path="mkdir -p $dirpath && rsync" -a $filename '{}':$syncpath --delete :::: $hostfile
+  # while read -la host
+  #     rsync --rsync-path="mkdir -p $dirpath && rsync" --delete -a $filename $host:$syncpath
+  # end < $hostfile
+  # return 0
+  parallel "rsync --rsync-path=\"mkdir -p $dirpath; rsync\" -a $filename '{}':$syncpath --delete" :::: "$hostfile"
 end
