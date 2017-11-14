@@ -6,7 +6,28 @@ function rcc -d "rsync a file over a cluster" --argument-names 'filename'
   if test -d $filename
     set filename $filename"/"
   end
-  for host in "nobida144" "nobida145" "nobida146" "nobida148"
-    rsync -a $filename $host:(realpath $filename)
+
+  set -e hostfile
+  pushd .
+  while set -q $hostfile
+      if test -e ".hostfile"
+          set hostfile (pwd)/.hostfile
+      else
+          if test (pwd) = "/"
+              echo "Cannot find a .hostfile up from here."
+              popd
+              return 1
+          end
+          cd ..
+      end
   end
+  popd
+
+  set syncpath (realpath $filename)
+  set dirpath (dirname $syncpath"dummy")
+  while read -la host
+      rsync --rsync-path="mkdir -p $dirpath && rsync" --delete -a $filename $host:$syncpath
+  end < $hostfile
+  return 0
+  # parallel rsync --rsync-path="mkdir -p $dirpath && rsync" -a $filename '{}':$syncpath --delete :::: $hostfile
 end

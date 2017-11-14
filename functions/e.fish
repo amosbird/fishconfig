@@ -20,12 +20,8 @@ function e --argument-names 'file'
     echo "Usage: $_ <filename>"
     return 1
   end
-  if test -d $file -o -f $file
-    # set buf "/"(whoami)"@"(hostname)":"(readlink -f $file)
-    emacsclient -n $file
-    tmux switch-client -t emacs
-  else
-    echo "File $file is not an existing file or directory."
-    return 1
-  end
+  mkdir -p -- (dirname $file)
+  touch $file
+  emacsclient -n $file
+  tmux switch-client -t emacs
 end

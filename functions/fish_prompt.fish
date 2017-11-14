@@ -31,7 +31,8 @@ function fish_prompt
     _print_in_color " ❯ " (_prompt_color_for_status $last_status)
   else
     if true
-      _print_in_color " ENV" cyan
+      set -q envprompt; or set envprompt ENV
+      _print_in_color " $envprompt" cyan
     else
 	    _print_in_color " ENV" yellow
     end

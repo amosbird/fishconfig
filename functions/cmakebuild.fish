@@ -5,9 +5,7 @@ function cmakebuild
        export CXX=/usr/bin/clang++
     end
     if test ! -f build/CMakeCache.txt
-        pushd build
-        cmake .. ;or rm CMakeCache.txt
-        popd
+        cmake -H. -Bbuild ;or rm build/CMakeCache.txt
     end
     if test -f build/CMakeCache.txt
         cmake --build build -- -j(nproc)
