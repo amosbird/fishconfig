@@ -9,10 +9,14 @@ set FZF_HOME $HOME/.fzf
 
 set -x RUST_SRC_PATH /home/amos/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
 # set -x TERMINFO $HOME/share/terminfo
+set -x C_INCLUDE_PATH /home/amos/include $C_INCLUDE_PATH
+set -x CPLUS_INCLUDE_PATH /home/amos/include $CPLUS_INCLUDE_PATH
+set -x LIBRARY_PATH /home/amos/lib $LIBRARY_PATH
 set -x FZF_DEFAULT_OPTS "--ansi --multi --bind=ctrl-v:half-page-down,alt-v:half-page-up,ctrl-l:accept"
 set -x GOPATH $HOME/go
 set -x CARGO_HOME $HOME/.cargo
 set -x CABAL_HOME $HOME/.cabal
+set -x GEM_HOME $HOME/.gem/ruby/2.4.0
 set -x EDITOR vim
 set -x VISUAL vim
 set -x GTAGSFORCECPP true
@@ -60,4 +64,4 @@ end
 # end
 
 # prepend path
-set -U fish_user_paths $HOME/scripts $FZF_HOME/bin $GOPATH/bin $CARGO_HOME/bin $CABAL_HOME/bin $HOME/.local/bin $HOME/bin
+set -U fish_user_paths $HOME/scripts $FZF_HOME/bin $GOPATH/bin $CARGO_HOME/bin $CABAL_HOME/bin $GEM_HOME/bin $HOME/.local/bin $HOME/bin
