@@ -1,4 +1,8 @@
 function rcc -d "rsync a file over a cluster" --argument-names 'filename'
+  if test (count $argv) -ne 1
+    echo "Usage: $_ <file|dir>"
+    return 1
+  end
   if not test -e $filename
     echo "file not exist"
     return 1
