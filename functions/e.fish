@@ -20,8 +20,6 @@ function e --argument-names 'file'
     echo "Usage: $_ <filename>"
     return 1
   end
-  mkdir -p -- (dirname $file)
-  touch $file
-  emacsclient -n $file
   tmux switch-client -t emacs
+  emacsclient -n $file
 end

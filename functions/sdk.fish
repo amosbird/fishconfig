@@ -1,3 +1,3 @@
 function sdk
-  bass source ~/.sdkman/bin/sdkman-init.sh --no-use ';' sdk $argv
+    bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk $argv"
 end

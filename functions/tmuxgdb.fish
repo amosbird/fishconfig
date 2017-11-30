@@ -1,15 +1,21 @@
 function tmuxgdb -d ""
-  tmux neww -n Debug
-  tmux splitw -h -p 50
+  tmux neww -a -n Debug
+  tmux splitw -h
   tmux select-pane -t 1
   set tty1 (tmux display -p "#{pane_tty}")
-  tmux splitw -v -p 40
+
+  tmux splitw -v
+  tmux send-keys "sleep infinity" C-m
   set tty3 (tmux display -p "#{pane_tty}")
   tmux select-pane -t 1
-  tmux splitw -v -p 40
+
+  tmux splitw -v
   set tty2 (tmux display -p "#{pane_tty}")
+
+  tmux splitw -h
+  set tty4 (tmux display -p "#{pane_tty}")
   # tmux send-keys "reptyr -l" C-m
-  tmux send-keys "sleep infinity" C-m
-  tmux select-pane -t 4
-  tmux send-keys "cgdb -- $argv -tty $tty2 -ex \"dashboard stack -output $tty1\" -ex \"dashboard expression -output $tty3\"" C-m
+  tmux select-pane -t 5
+  tmux select-layout "a37e,211x50,0,0{105x50,0,0[105x18,0,0,339,105x25,0,19{52x25,0,19,342,52x25,53,19,343},105x5,0,45,341],105x50,106,0,340}"
+  tmux send-keys "cgdb -- $argv -tty $tty3 -ex \"dashboard threads -output $tty1\" -ex \"dashboard stack -output $tty1\" -ex \"dashboard expression -output $tty4\" -ex \"dashboard registers -output $tty2\"" C-m
 end
