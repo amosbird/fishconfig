@@ -1,5 +1,6 @@
 function tmuxgdb -d ""
   tmux neww -a -n Debug
+  tmux set -w pane-border-status off
   tmux splitw -h
   tmux select-pane -t 1
   set tty1 (tmux display -p "#{pane_tty}")
