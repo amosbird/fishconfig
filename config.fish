@@ -63,7 +63,7 @@ end
 # end
 
 # prepend path
-set -U fish_user_paths $HOME/scripts $FZF_HOME/bin $GOPATH/bin $CARGO_HOME/bin $CABAL_HOME/bin $HOME/.local/bin $HOME/bin
+set -U fish_user_paths $HOME/scripts $FZF_HOME/bin $GOPATH/bin $CARGO_HOME/bin $CABAL_HOME/bin $HOME/.local/bin $HOME/bin /bin /sbin
 
 if test -e ~/.local/share/icons-in-terminal/icons.fish
     source ~/.local/share/icons-in-terminal/icons.fish
